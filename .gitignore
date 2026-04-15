@@ -1,0 +1,19 @@
+# Environments
+.env
+__pycache__/
+*.pyc
+
+# Virtual Environments 
+venv/
+env/
+
+# IDEs
+.vscode/
+
+# Generated Databases and Private Logs (IGNORE THESE)
+data/chroma_db/
+data/chat_history/
+
+app.py
+archDiag.drawio
+FINAL DOCUMENT.pdf

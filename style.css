@@ -1,0 +1,299 @@
+/* --- CLINICAL COLOR PALETTE & VARIABLES --- */
+:root {
+    --primary-blue: #2B6CB0;     /* Trustworthy, calming blue */
+    --light-blue: #EBF8FF;       /* Soft background for AI messages */
+    --bg-main: #F7FAFC;          /* Off-white to reduce eye strain */
+    --sidebar-bg: #FFFFFF;       /* Crisp white for the control center */
+    --text-dark: #2D3748;        /* High contrast for readability */
+    --text-muted: #718096;       /* For timestamps and minor labels */
+    --danger-red: #E53E3E;       /* Exclusively for the SOS button */
+    --border-color: #E2E8F0;
+    
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- RESET & TYPOGRAPHY --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+    height: 100vh;
+    overflow: hidden; /* Prevents whole-page scrolling */
+}
+
+/* --- MAIN APP LAYOUT --- */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+/* Sidebar takes up exactly 260px, Chat Interface takes the rest */
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.chat-interface {
+    flex: 1; /* Takes up remaining space */
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+/* --- SIDEBAR STYLING --- */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary-blue);
+    margin-bottom: 30px;
+}
+
+.brand i {
+    font-size: 1.5rem;
+}
+
+.new-chat-btn {
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.2s ease;
+    margin-bottom: 30px;
+}
+
+.new-chat-btn:hover {
+    background-color: #235A94; /* Slightly darker blue on hover */
+}
+
+.history-section h3, .mood-section h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+}
+
+.history-list {
+    list-style: none;
+    overflow-y: auto;
+    flex: 1; /* Allows the history list to grow and scroll if it gets too long */
+    margin-bottom: 20px;
+}
+
+.history-list li {
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease;
+}
+
+.history-list li:hover {
+    background-color: var(--bg-main);
+}
+
+/* --- CHAT HEADER --- */
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: white;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sos-btn {
+    background-color: white;
+    color: var(--danger-red);
+    border: 1px solid var(--danger-red);
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sos-btn:hover {
+    background-color: var(--danger-red);
+    color: white;
+}
+
+/* --- CHAT HISTORY AREA --- */
+.chat-history {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Base style for all message bubbles */
+.message {
+    max-width: 75%;
+    padding: 15px 20px;
+    border-radius: 12px;
+    line-height: 1.5;
+    font-size: 1rem;
+}
+
+/* User Message */
+.user-msg {
+    align-self: flex-end;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    border-bottom-right-radius: 2px; /* Makes the bubble point towards the right */
+}
+
+/* AI Message */
+.ai-msg {
+    align-self: flex-start;
+    background-color: var(--light-blue);
+    color: var(--primary-blue);
+    border-bottom-left-radius: 2px; /* Makes the bubble point towards the left */
+}
+
+/* --- INPUT AREA & QUICK PROMPTS --- */
+.input-container {
+    padding: 20px 30px;
+    background-color: white;
+    border-top: 1px solid var(--border-color);
+}
+
+.quick-prompts {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    overflow-x: auto; /* Allows scrolling if there are many prompts */
+}
+
+.prompt-btn {
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    padding: 8px 15px;
+    border-radius: 20px; /* Pill shape */
+    font-size: 0.85rem;
+    color: var(--text-dark);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s ease;
+}
+
+.prompt-btn:hover {
+    background-color: #E2E8F0;
+}
+
+.input-box {
+    display: flex;
+    align-items: flex-end;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 10px 15px;
+}
+
+.input-box textarea {
+    flex: 1;
+    background: transparent;
+    border: none;
+    resize: none; /* Prevents user from dragging the corner */
+    outline: none;
+    font-family: inherit;
+    font-size: 1rem;
+    padding: 5px;
+    max-height: 120px; /* Stops it from growing too tall */
+    overflow-y: auto;
+}
+
+#send-btn {
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    transition: background-color 0.2s ease;
+}
+
+#send-btn:hover {
+    background-color: #235A94;
+}
+
+/* --- SIDEBAR LAYOUT UPDATES --- */
+.sidebar {
+    background-color: var(--sidebar-bg);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.left-sidebar {
+    width: 260px;
+    border-right: 1px solid var(--border-color);
+}
+
+.right-sidebar {
+    width: 300px;
+    border-left: 1px solid var(--border-color);
+    overflow-y: auto;
+}
+
+/* This makes sure the history section takes up remaining vertical space */
+.history-section {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+    overflow: hidden; /* Contains the scrolling to the list */
+}
+
+/* --- THE SCROLL MAGIC --- */
+.history-list {
+    list-style: none;
+    overflow-y: auto; /* This creates the scrollbar */
+    flex: 1; 
+    padding-right: 5px; /* Adds a tiny bit of space for the scrollbar */
+}
+
+/* Optional: Make the scrollbar look professional and clean (Webkit browsers) */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #CBD5E0;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-muted);
+}

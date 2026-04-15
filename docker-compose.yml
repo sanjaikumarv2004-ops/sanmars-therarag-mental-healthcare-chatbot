@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # 1. The Local AI Server
+  ollama:
+    image: ollama/ollama:latest
+    container_name: thera_ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      # This saves downloaded models so they don't re-download on restart
+      - ollama_storage:/root/.ollama 
+
+  # 2. The Flask Backend
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    container_name: thera_backend
+    ports:
+      - "5000:5000"
+    volumes:
+      # Mount the data folder so ChromaDB and chats are saved to your real hard drive
+      - ./data:/app/data 
+    depends_on:
+      - ollama
+    environment:
+      # Tell Flask where Ollama lives inside the Docker network
+      - OLLAMA_HOST=http://ollama:11434
+
+  # 3. The Streamlit Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: thera_frontend
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      - backend
+    environment:
+      # Tell Streamlit where Flask lives inside the Docker network
+      - FLASK_API_URL=http://backend:5000
+
+volumes:
+  ollama_storage:
